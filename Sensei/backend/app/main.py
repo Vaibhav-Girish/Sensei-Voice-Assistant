@@ -1,8 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.app.models import ChatRequest, ChatResponse
-from backend.app.gemini import GeminiService
+from app.models import ChatRequest, ChatResponse
+from app.gemini import GeminiService
 
 app = FastAPI(
     title="Sensei API",

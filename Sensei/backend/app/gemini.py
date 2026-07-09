@@ -1,7 +1,7 @@
 from google import genai
 
-from backend.app.config import GEMINI_API_KEY
-from backend.app.prompts import SYSTEM_PROMPT
+from app.config import GEMINI_API_KEY
+from app.prompts import SYSTEM_PROMPT
 
 
 class GeminiService:
