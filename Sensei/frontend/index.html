@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensei - AI Voice Assistant</title>
+    <!-- Google Font (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Linked stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-brand">
+                <h1 id="app-title" class="app-title">Sensei</h1>
+                <p id="app-subtitle" class="app-subtitle">Learn • Think • Assist</p>
+            </div>
+            <!-- Settings Button -->
+            <button id="settings-btn" class="settings-btn" aria-label="Settings">
+                <i data-lucide="settings"></i>
+            </button>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="app-main">
+            <!-- Animated Orb Container -->
+            <div id="orb-container" class="orb-container">
+                <div id="orb" class="orb state-idle">
+                    <!-- The orb visual element for animations -->
+                    <div class="orb-ring ring-1"></div>
+                    <div class="orb-ring ring-2"></div>
+                    <div class="orb-ring ring-3"></div>
+                    <div class="orb-core"></div>
+                </div>
+            </div>
+
+            <!-- Status Indicator and Text -->
+            <div id="status-container" class="status-container">
+                <span id="status-indicator" class="status-indicator state-idle"></span>
+                <span id="status-text" class="status-text">Idle</span>
+            </div>
+
+            <!-- Chat Container / Conversation Window -->
+            <section id="chat-container" class="chat-container">
+                <div id="chat-window" class="chat-window">
+                    <!-- Initial welcoming message -->
+                    <div class="message-card system-message">
+                        <div class="message-sender">Sensei</div>
+                        <div class="message-text">Hello! I am Sensei. Click the microphone below to start a natural voice conversation.</div>
+                    </div>
+                    <!-- Future Message Cards and Typing Indicator will be appended here by JS -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Controls Section -->
+        <section class="app-controls">
+            <!-- Large circular microphone button -->
+            <button id="mic-btn" class="mic-btn" aria-label="Start Listening">
+                <i data-lucide="mic"></i>
+            </button>
+        </section>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p class="footer-text">&copy; 2026 Sensei. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Linked script.js -->
+    <script src="script.js"></script>
+</body>
+</html>

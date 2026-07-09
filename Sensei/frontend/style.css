@@ -1,0 +1,763 @@
+/* ==========================================================================
+   1. VARIABLES & RESET
+   ========================================================================== */
+:root {
+    --bg-dark: #050816;
+    --bg-card: #101728;
+    --color-primary: #4F8CFF;
+    --color-secondary: #8B5CF6;
+    --color-text-main: #F3F4F6;
+    --color-text-muted: #9CA3AF;
+    
+    /* Glassmorphism System */
+    --glass-bg: rgba(16, 23, 40, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    
+    /* Fonts & Glows */
+    --font-family: 'Inter', sans-serif;
+    --glow-primary: 0 0 20px rgba(79, 140, 255, 0.4);
+    --glow-secondary: 0 0 20px rgba(139, 92, 246, 0.4);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--color-text-main);
+    font-family: var(--font-family);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    
+    /* Premium Futuristic Background Vibe */
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(79, 140, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
+}
+
+/* ==========================================================================
+   2. APP CONTAINER LAYOUT
+   ========================================================================== */
+.app-container {
+    width: 100%;
+    max-width: 800px;
+    height: 90vh;
+    margin: 5vh auto;
+    display: flex;
+    flex-direction: column;
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    box-shadow: var(--glass-shadow);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ==========================================================================
+   3. APP HEADER
+   ========================================================================== */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--glass-border);
+    background: rgba(5, 8, 22, 0.3);
+}
+
+.header-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.app-title {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.app-subtitle {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+.settings-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    color: var(--color-text-main);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.settings-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(79, 140, 255, 0.4);
+    transform: rotate(45deg);
+    color: var(--color-primary);
+    box-shadow: 0 0 12px rgba(79, 140, 255, 0.2);
+}
+
+.settings-btn:active {
+    transform: scale(0.92) rotate(45deg);
+}
+
+/* ==========================================================================
+   4. MAIN WORKSPACE
+   ========================================================================== */
+.app-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 32px;
+    overflow: hidden;
+    gap: 20px;
+}
+
+/* ==========================================================================
+   5. ANIMATED ORB
+   ========================================================================== */
+.orb-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 160px;
+    width: 100%;
+    position: relative;
+}
+
+.orb {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Subtle ambient glow behind core */
+.orb::before {
+    content: '';
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    background: radial-gradient(circle, rgba(79, 140, 255, 0.35) 0%, rgba(139, 92, 246, 0.1) 50%, transparent 70%);
+    border-radius: 50%;
+    z-index: 2;
+    filter: blur(12px);
+    pointer-events: none;
+    animation: ambient-glow-breath 4s ease-in-out infinite alternate;
+    transition: background 0.5s ease;
+}
+
+/* Floating particles around the Sensei Core */
+.orb::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: transparent;
+    pointer-events: none;
+    z-index: 4;
+    box-shadow: 
+        -40px -40px 0 rgba(79, 140, 255, 0.6),
+        45px -20px 0 rgba(139, 92, 246, 0.5),
+        -25px 45px 0 rgba(0, 240, 255, 0.6),
+        35px 35px 0 rgba(79, 140, 255, 0.5),
+        -30px 20px 0 rgba(139, 92, 246, 0.6),
+        30px -35px 0 rgba(0, 240, 255, 0.5);
+    animation: particles-orbit 12s linear infinite;
+}
+
+@keyframes ambient-glow-breath {
+    0% {
+        transform: scale(0.9);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1.15);
+        opacity: 0.9;
+    }
+}
+
+@keyframes particles-orbit {
+    0% {
+        transform: rotate(0deg) scale(0.9);
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 0.8;
+        transform: rotate(180deg) scale(1.15);
+    }
+    100% {
+        transform: rotate(360deg) scale(0.9);
+        opacity: 0.3;
+    }
+}
+
+.orb-core {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-primary), var(--color-secondary));
+    box-shadow: 
+        0 0 25px var(--color-primary),
+        0 0 50px var(--color-secondary),
+        inset 0 0 12px rgba(255, 255, 255, 0.5);
+    z-index: 5;
+    animation: orb-breath 4s ease-in-out infinite alternate;
+}
+
+.orb-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    filter: blur(0.5px);
+}
+
+.ring-1 {
+    width: 80px;
+    height: 80px;
+    border-top-color: rgba(79, 140, 255, 0.7);
+    border-bottom-color: rgba(139, 92, 246, 0.4);
+    animation: rotate-clockwise 5s linear infinite;
+}
+
+.ring-2 {
+    width: 100px;
+    height: 100px;
+    border-left-color: rgba(139, 92, 246, 0.6);
+    border-right-color: rgba(79, 140, 255, 0.3);
+    border-style: dashed;
+    animation: rotate-counter-clockwise 7s linear infinite;
+}
+
+.ring-3 {
+    width: 124px;
+    height: 124px;
+    border-top-color: rgba(79, 140, 255, 0.2);
+    border-bottom-color: rgba(139, 92, 246, 0.5);
+    border-width: 1px;
+    animation: rotate-clockwise 10s linear infinite;
+}
+
+/* Orb Core Keyframes */
+@keyframes orb-breath {
+    0% {
+        transform: scale(0.92);
+        box-shadow: 
+            0 0 20px rgba(79, 140, 255, 0.4),
+            0 0 45px rgba(139, 92, 246, 0.3),
+            inset 0 0 8px rgba(255, 255, 255, 0.3);
+    }
+    100% {
+        transform: scale(1.08);
+        box-shadow: 
+            0 0 35px rgba(79, 140, 255, 0.7),
+            0 0 70px rgba(139, 92, 246, 0.6),
+            inset 0 0 15px rgba(255, 255, 255, 0.6);
+    }
+}
+
+/* Rotation Keyframes */
+@keyframes rotate-clockwise {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes rotate-counter-clockwise {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+}
+
+/* --- ORB STATE MODIFIERS --- */
+
+/* Listening State Modifiers */
+.orb.state-listening .orb-core {
+    background: radial-gradient(circle, #00F0FF, #8B5CF6);
+    box-shadow: 
+        0 0 30px rgba(0, 240, 255, 0.8),
+        0 0 60px rgba(139, 92, 246, 0.7),
+        inset 0 0 12px rgba(255, 255, 255, 0.5);
+    animation: orb-breath 1.8s ease-in-out infinite alternate;
+}
+
+.orb.state-listening .ring-1 {
+    border-top-color: rgba(0, 240, 255, 0.8);
+    animation: rotate-clockwise 2.5s linear infinite;
+}
+
+.orb.state-listening .ring-2 {
+    border-left-color: rgba(139, 92, 246, 0.8);
+    animation: rotate-counter-clockwise 3s linear infinite;
+}
+
+/* Ambient glow color overrides for states */
+.orb.state-listening::before {
+    background: radial-gradient(circle, rgba(0, 240, 255, 0.4) 0%, rgba(139, 92, 246, 0.15) 50%, transparent 70%);
+}
+
+.orb.state-thinking::before {
+    background: radial-gradient(circle, rgba(0, 240, 255, 0.4) 0%, rgba(79, 140, 255, 0.15) 50%, transparent 70%);
+}
+
+.orb.state-speaking::before {
+    background: radial-gradient(circle, rgba(0, 255, 135, 0.4) 0%, rgba(79, 140, 255, 0.15) 50%, transparent 70%);
+}
+
+/* Thinking State Modifiers */
+.orb.state-thinking .orb-core {
+    background: radial-gradient(circle, #00F0FF, #4F8CFF);
+    box-shadow: 
+        0 0 30px rgba(0, 240, 255, 0.8),
+        0 0 60px rgba(79, 140, 255, 0.7),
+        inset 0 0 12px rgba(255, 255, 255, 0.5);
+    animation: orb-pulse-fast 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes orb-pulse-fast {
+    0% { transform: scale(0.95); opacity: 0.8; }
+    100% { transform: scale(1.05); opacity: 1; }
+}
+
+.orb.state-thinking .ring-1 {
+    animation: rotate-clockwise 3.5s linear infinite;
+}
+
+.orb.state-thinking .ring-2 {
+    animation: rotate-counter-clockwise 4s linear infinite;
+}
+
+.orb.state-thinking .ring-3 {
+    animation: rotate-clockwise 6s linear infinite;
+}
+
+/* Speaking State Modifiers */
+.orb.state-speaking .orb-core {
+    background: radial-gradient(circle, #00FF87, #4F8CFF);
+    box-shadow: 
+        0 0 35px rgba(0, 255, 135, 0.8),
+        0 0 70px rgba(79, 140, 255, 0.7),
+        inset 0 0 12px rgba(255, 255, 255, 0.5);
+    animation: orb-speak-bounce 0.35s ease-in-out infinite alternate;
+}
+
+@keyframes orb-speak-bounce {
+    0% { transform: scale(0.92); }
+    100% { transform: scale(1.2); }
+}
+
+.orb.state-speaking .ring-1 {
+    animation: rotate-clockwise 1.8s linear infinite;
+}
+
+.orb.state-speaking .ring-2 {
+    animation: rotate-counter-clockwise 2.2s linear infinite;
+}
+
+/* ==========================================================================
+   6. STATUS INDICATOR
+   ========================================================================== */
+.status-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+}
+
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+}
+
+.status-indicator::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    animation: status-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes status-ping {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(2.8); opacity: 0; }
+}
+
+/* Status States Colors */
+.status-indicator.state-idle { background-color: var(--color-primary); }
+.status-indicator.state-idle::after { background-color: var(--color-primary); }
+
+.status-indicator.state-listening { background-color: #00F0FF; }
+.status-indicator.state-listening::after { background-color: #00F0FF; }
+
+.status-indicator.state-thinking { background-color: #00F0FF; }
+.status-indicator.state-thinking::after { background-color: #00F0FF; }
+
+.status-indicator.state-speaking { background-color: #00FF87; }
+.status-indicator.state-speaking::after { background-color: #00FF87; }
+
+/* ==========================================================================
+   7. CHAT & CONVERSATION WINDOW
+   ========================================================================== */
+.chat-container {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 150px;
+    border-radius: 20px;
+    background: rgba(16, 23, 40, 0.35);
+    border: 1px solid var(--glass-border);
+    overflow: hidden;
+}
+
+.chat-window {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+}
+
+/* Scrollbar Customization */
+.chat-window::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-window::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-window::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+}
+
+.chat-window::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Glassmorphism Message Cards */
+.message-card {
+    max-width: 80%;
+    padding: 14px 18px;
+    border-radius: 18px;
+    font-size: 14px;
+    line-height: 1.5;
+    position: relative;
+    animation: message-slide-up 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    word-wrap: break-word;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes message-slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-sender {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 6px;
+}
+
+/* System/Assistant Styles (Aligned Left) */
+.system-message, .assistant-message {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-bottom-left-radius: 4px;
+    color: var(--color-text-main);
+}
+
+.system-message .message-sender, .assistant-message .message-sender {
+    color: var(--color-primary);
+}
+
+/* User Styles (Aligned Right) */
+.user-message {
+    align-self: flex-end;
+    background: linear-gradient(135deg, rgba(79, 140, 255, 0.12), rgba(139, 92, 246, 0.12));
+    border: 1px solid rgba(79, 140, 255, 0.25);
+    border-bottom-right-radius: 4px;
+    color: var(--color-text-main);
+}
+
+.user-message .message-sender {
+    color: var(--color-secondary);
+    text-align: right;
+}
+
+/* Message Text formatting */
+.message-text {
+    font-weight: 400;
+}
+
+/* Typing Indicator Vibe */
+.typing-indicator {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    border-bottom-left-radius: 4px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: message-slide-up 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.typing-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    animation: typing-bounce 1.4s infinite ease-in-out both;
+}
+
+.typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typing-bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}
+
+/* ==========================================================================
+   8. CONTROLS SECTION & MICROPHONE BUTTON
+   ========================================================================== */
+.app-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 32px 12px;
+    position: relative;
+    z-index: 10;
+}
+
+.mic-btn {
+    position: relative;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: white;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 
+        0 4px 18px rgba(79, 140, 255, 0.3),
+        0 0 35px rgba(139, 92, 246, 0.2);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mic-btn i {
+    width: 26px;
+    height: 26px;
+    transition: transform 0.3s ease;
+}
+
+/* Ripple expanded ring background */
+.mic-btn::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    z-index: -1;
+    opacity: 0.35;
+    transition: all 0.4s ease;
+}
+
+/* Button Hover State */
+.mic-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 
+        0 8px 24px rgba(79, 140, 255, 0.45),
+        0 0 45px rgba(139, 92, 246, 0.35);
+}
+
+.mic-btn:hover i {
+    transform: scale(1.1);
+}
+
+.mic-btn:hover::before {
+    transform: scale(1.16);
+    opacity: 0.15;
+}
+
+/* Button Active State (Click) */
+.mic-btn:active {
+    transform: scale(0.95);
+    box-shadow: 
+        0 2px 10px rgba(79, 140, 255, 0.3),
+        0 0 20px rgba(139, 92, 246, 0.2);
+}
+
+/* State Modifiers for Mic */
+.mic-btn.state-listening {
+    background: linear-gradient(135deg, #00F0FF, var(--color-secondary));
+    box-shadow: 
+        0 0 25px rgba(0, 240, 255, 0.6),
+        0 0 50px rgba(139, 92, 246, 0.4);
+}
+
+.mic-btn.state-listening::before {
+    background: #00F0FF;
+    animation: mic-ripple-ring 1.6s infinite cubic-bezier(0.1, 0.8, 0.3, 1);
+}
+
+@keyframes mic-ripple-ring {
+    0% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1.65);
+        opacity: 0;
+    }
+}
+
+/* ==========================================================================
+   9. APP FOOTER
+   ========================================================================== */
+.app-footer {
+    padding: 12px 32px 20px;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+    background: rgba(5, 8, 22, 0.2);
+}
+
+.footer-text {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   10. RESPONSIVE DESIGN (Desktop First)
+   ========================================================================== */
+@media (max-width: 820px) {
+    .app-container {
+        height: 100vh;
+        margin: 0;
+        border-radius: 0;
+        border: none;
+    }
+    
+    body {
+        background-image: 
+            radial-gradient(circle at 50% 15%, rgba(79, 140, 255, 0.08) 0%, transparent 60%);
+    }
+}
+
+@media (max-width: 480px) {
+    .app-header {
+        padding: 16px 20px;
+    }
+    
+    .app-main {
+        padding: 16px 20px;
+        gap: 16px;
+    }
+    
+    .orb-container {
+        height: 130px;
+    }
+    
+    .orb {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .orb-core {
+        width: 42px;
+        height: 42px;
+    }
+    
+    /* Responsive Ring Scaling */
+    .ring-1 { width: 66px; height: 66px; }
+    .ring-2 { width: 84px; height: 84px; }
+    .ring-3 { width: 102px; height: 102px; }
+    
+    .message-card {
+        max-width: 85%;
+        padding: 12px 14px;
+        font-size: 13px;
+        border-radius: 16px;
+    }
+    
+    .chat-window {
+        padding: 16px;
+    }
+    
+    .mic-btn {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .app-controls {
+        padding: 12px 20px;
+    }
+    
+    .app-footer {
+        padding: 10px 20px 16px;
+    }
+}
