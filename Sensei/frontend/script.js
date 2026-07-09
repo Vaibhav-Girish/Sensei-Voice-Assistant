@@ -195,7 +195,7 @@ async function sendMessage(message) {
         showTypingIndicator();
 
         // 5. Perform HTTP request to local backend service
-        const response = await fetch('http://127.0.0.1:8000/api/v1/chat', {
+        const response = await fetch('https://sensei-api-yu1j.onrender.com/api/v1/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -358,7 +358,7 @@ function startListening() {
         console.error('Speech recognition is not initialized or supported in this browser.');
         return;
     }
-    
+
     // Toggle active state
     if (isListening) {
         recognition.stop();
